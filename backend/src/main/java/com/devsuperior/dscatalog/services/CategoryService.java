@@ -1,11 +1,13 @@
 package com.devsuperior.dscatalog.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
@@ -30,5 +32,17 @@ public class CategoryService {
 		// .collect() -> Converte o stream em uma lista novamente.
 		List<CategoryDTO> listDTO = list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
 		return listDTO; 
+	}
+
+	@Transactional(readOnly = true)
+	public CategoryDTO findById(Long id) {
+		// O objeto Optional surgiu a partir do Java 8 para evitar que se trabalhe com valor nulo.
+		// O retorno desta busca nunca será um valor nulo.
+		Optional<Category> obj = repository.findById(id);
+		
+		// Extraindo o objeto Category de dentro do Optional;
+		Category entity = obj.get();
+		
+		return new CategoryDTO(entity);
 	}
 }

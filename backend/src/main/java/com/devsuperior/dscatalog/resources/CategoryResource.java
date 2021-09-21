@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,4 +36,16 @@ public class CategoryResource {
 		// ResponseEntity.ok informa que o código de retorno é 200 - Sucesso.
 		return ResponseEntity.ok().body(list); 
 	}
+	
+	// @PathVariable Long id -> indica para o spring que o parâmetro será a variável definida na rota "/{id}".
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
+		
+		CategoryDTO dto = service.findById(id);
+		
+		// Retornando a categoria no corpo da resposta HTTP da requisição.
+		// ResponseEntity.ok informa que o código de retorno é 200 - Sucesso.
+		return ResponseEntity.ok().body(dto); 
+	}
+	
 }
