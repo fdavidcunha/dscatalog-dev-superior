@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,4 +64,13 @@ public class CategoryResource {
 		return ResponseEntity.created(uri).body(dto); 
 	}
 	
+	// @RequestBody -> Para que o end-point reconheça o objeto enviado na requisição e "case" o objeto com o parâmetro do método insert.
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody CategoryDTO dto) {
+		dto = service.update(id, dto);
+		
+		// Retornando a categoria no corpo da resposta HTTP da requisição.
+		// ResponseEntity.ok informa que o código de retorno é 200 - Sucesso.
+		return ResponseEntity.ok().body(dto); 
+	}
 }
