@@ -1,12 +1,16 @@
 package com.devsuperior.dscatalog.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +23,14 @@ public class Category implements Serializable{
 	private Long id;
 	private String name;
 	
+	// Define que a coluna de data é no padrão UTC.
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant createdAt;
+	
+	// Define que a coluna de data é no padrão UTC.
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant updatedAt;
+
 	public Category() {
 		
 	}
@@ -43,6 +55,26 @@ public class Category implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
+
+	// @PrePersist -> É executado pelo JPA sempre antes de incluir um registro.
+	@PrePersist
+	public void prePersist() {
+		createdAt= Instant.now();
+	}
+	
+	// @PreUpdate -> É executado pelo JPA sempre antes de alterar um registro.
+	@PreUpdate
+	public void preUpdated() {
+		updatedAt= Instant.now();
 	}
 
 	@Override
