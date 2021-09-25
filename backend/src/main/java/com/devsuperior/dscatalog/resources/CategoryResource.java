@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,5 +73,16 @@ public class CategoryResource {
 		// Retornando a categoria no corpo da resposta HTTP da requisição.
 		// ResponseEntity.ok informa que o código de retorno é 200 - Sucesso.
 		return ResponseEntity.ok().body(dto); 
+	}
+	
+	// @RequestBody -> Para que o end-point reconheça o objeto enviado na requisição e "case" o objeto com o parâmetro do método insert.
+	// O retorno do delete também pode ser um ResponseEntity<Void>, já que não será necessário retornar um DTO no corpo da requisição.
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		service.delete(id);
+		
+		// No delete a resposta não precisa ter corpo
+		// ResponseEntity.noContent().build() -> Responde um código 204 - No content.
+		return ResponseEntity.noContent().build(); 
 	}
 }
