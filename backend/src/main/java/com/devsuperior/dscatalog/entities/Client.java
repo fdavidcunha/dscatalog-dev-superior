@@ -8,35 +8,36 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable{
-	private static final long serialVersionUID = 1L;
+@Table(name = "tb_client")
+public class Client implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	private String cpf;
+	private Double income;
 	
 	// Define que a coluna de data é no padrão UTC.
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant createdAt;
+	private Instant birthDate;
+	private Integer children;
 	
-	// Define que a coluna de data é no padrão UTC.
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant updatedAt;
-
-	public Category() {
+	public Client() {
 	}
 
-	public Category(Long id, String name) {
+	public Client(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.cpf = cpf;
+		this.income = income;
+		this.birthDate = birthDate;
+		this.children = children;
 	}
 
 	public Long getId() {
@@ -54,25 +55,41 @@ public class Category implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public Instant getCreatedAt() {
-		return createdAt;
+
+	public String getCpf() {
+		return cpf;
 	}
 
-	public Instant getUpdatedAt() {
-		return updatedAt;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
-	// @PrePersist -> É executado pelo JPA sempre antes de incluir um registro.
-	@PrePersist
-	public void prePersist() {
-		createdAt= Instant.now();
+	public Double getIncome() {
+		return income;
 	}
-	
-	// @PreUpdate -> É executado pelo JPA sempre antes de alterar um registro.
-	@PreUpdate
-	public void preUpdated() {
-		updatedAt= Instant.now();
+
+	public void setIncome(Double income) {
+		this.income = income;
+	}
+
+	public Instant getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Instant birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public Integer getChildren() {
+		return children;
+	}
+
+	public void setChildren(Integer children) {
+		this.children = children;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
@@ -88,7 +105,7 @@ public class Category implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Client other = (Client) obj;
 		return Objects.equals(id, other.id);
-	}
+	}	
 }
