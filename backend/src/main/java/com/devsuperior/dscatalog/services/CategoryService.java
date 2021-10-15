@@ -1,17 +1,14 @@
 package com.devsuperior.dscatalog.services;
 
 import java.util.Optional;
-
 import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
@@ -28,8 +25,8 @@ public class CategoryService {
 	// readOnly = true evita que o banco de dados seja lockado, melhorando assim a performance.
 	//                 Mais utilizado em métodos que fazem apenas leitura de dados.
 	@Transactional(readOnly = true)
-	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Category> list = repository.findAll(pageRequest);
+	public Page<CategoryDTO> findAllPaged(Pageable pageable) {
+		Page<Category> list = repository.findAll(pageable);
 		
 		// .map() -> Transforma cada cada elemento original em outra coisa. Ela aplica uma função a cada elemento da lista.
 		// x -> new CategoryDTO(x) -> Para cada elemento da lista chama a função CategoryDTO(x), que transforma o objeto Category em CategoryDTO. 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.dscatalog.dto.ClientDTO;
@@ -25,8 +25,8 @@ public class ClientService {
 	// readOnly = true evita que o banco de dados seja lockado, melhorando assim a performance.
 	//                 Mais utilizado em métodos que fazem apenas leitura de dados.
 	@Transactional(readOnly = true)
-	public Page<ClientDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Client> list = repository.findAll(pageRequest);
+	public Page<ClientDTO> findAllPaged(Pageable pageable) {
+		Page<Client> list = repository.findAll(pageable);
 		
 		// .map() -> Transforma cada cada elemento original em outra coisa. Ela aplica uma função a cada elemento da lista.
 		// x -> new ClientDTO(x) -> Para cada elemento da lista chama a função ClientDTO(x), que transforma o objeto Client em ClientDTO. 
