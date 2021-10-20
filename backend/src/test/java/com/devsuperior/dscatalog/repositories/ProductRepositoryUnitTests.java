@@ -13,7 +13,7 @@ import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.tests.Factory;
 
 @DataJpaTest
-public class ProductRepositoryTests {
+public class ProductRepositoryUnitTests {
 
 	@Autowired private ProductRepository repository;
 	
