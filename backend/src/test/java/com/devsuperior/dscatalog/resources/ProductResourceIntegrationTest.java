@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.tests.Factory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,6 +68,7 @@ public class ProductResourceIntegrationTest {
 		String jsonBody = objectMapper.writeValueAsString(productDTO);
 		
 		String expetedName = productDTO.getName();
+		String expetedDescription = productDTO.getDescription(); 
 		
 		ResultActions result = mockMvc.perform(put("/products/{id}", existingId)
 				.content(jsonBody)
@@ -77,13 +76,15 @@ public class ProductResourceIntegrationTest {
 				.accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(status().isOk());
-		result.andExpect(jsonPath("$.id").exists());
-		result.andExpect(jsonPath("$.name").exists());
-		result.andExpect(jsonPath("$.description").exists());
+		result.andExpect(jsonPath("$.id").value(existingId));
+		result.andExpect(jsonPath("$.name").value(expetedName));
+		result.andExpect(jsonPath("$.description").value(expetedDescription));
 	}
-	
+
 	@Test
 	public void updateShouldReturnNotFoundWhenIdDosNotExists() throws Exception {
+		
+		ProductDTO productDTO = Factory.createProductDTO();
 		
 		// O update necessita, além de um id, de um JSON no corpo da requisição que será o objeto atualizado.
 		// Neste caso é necessário converter o objeto Java para JSON.
@@ -93,8 +94,7 @@ public class ProductResourceIntegrationTest {
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
-		
-		// Verificando se o status da requisição é "not found".
+
 		result.andExpect(status().isNotFound());
 	}
 }
