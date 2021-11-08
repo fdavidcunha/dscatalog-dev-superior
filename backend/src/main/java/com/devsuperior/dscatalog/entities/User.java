@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,14 +26,16 @@ public class User implements Serializable {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	@Column(unique = true)
 	private String email;
 	private String password;
 
 	// Set -> Não aceita repetições, por isso não é usado um List.
 	//        É uma interface, por isso é instanciado com o HashSet, que é a implementação do Set.
-	// @ManyToMany -> Informa que muitos registros de uma entidade estão relacionados com muitos registros de outra entidade.
-	// @JoinTable  -> Cria uma tabela normatizada entre dois objetos, definidos nos parâmetros "name", "joinColumns" e "inverseJoinColumns". 
-	@ManyToMany
+	// @ManyToMany     -> Informa que muitos registros de uma entidade estão relacionados com muitos registros de outra entidade.
+	// @JoinTable      -> Cria uma tabela normatizada entre dois objetos, definidos nos parâmetros "name", "joinColumns" e "inverseJoinColumns". 
+	// FetchType.EAGER -> Força o carregamento das dependências da entidade. Nesse caso, ao instanciar um usuário os perfis serão carregados automaticamente.
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_user_role", 
 	           joinColumns = @JoinColumn(name = "user_id"),
 	           inverseJoinColumns = @JoinColumn(name = "role_id"))
