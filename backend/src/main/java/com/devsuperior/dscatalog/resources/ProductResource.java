@@ -1,6 +1,9 @@
 package com.devsuperior.dscatalog.resources;
 
 import java.net.URI;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -64,9 +67,10 @@ public class ProductResource {
 		return ResponseEntity.ok().body(dto); 
 	}
 	
-	// Endpoint para inserir uma categoria e encapsular uma resposta HTTP. 
+	// Endpoint para inserir uma categoria e encapsular uma resposta HTTP.
+	// @Valid -> indica que as anotações de validação (tamanho, requerido, etc), que estão nos atributos do DTO, serão validadas pelo spring.
 	@PostMapping
-	public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+	public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
 		dto = service.insert(dto);
 		
 		// Por padrão o ResponseEntity.ok() retorna o código 200. Porém, na inclusão de um novo registro, o código recomendado é o 201 (recurso criado).
@@ -77,8 +81,9 @@ public class ProductResource {
 	}
 	
 	// Endpoint para alterar uma categoria e encapsular uma resposta HTTP. 
+	// @Valid -> indica que as anotações de validação (tamanho, requerido, etc), que estão nos atributos do DTO, serão validadas pelo spring.
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+	public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) {
 		dto = service.update(id, dto);
 		
 		// Retornando a categoria no corpo da resposta HTTP da requisição.
