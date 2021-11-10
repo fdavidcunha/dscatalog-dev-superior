@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.devsuperior.dscatalog.dto.UserDTO;
 import com.devsuperior.dscatalog.dto.UserInsertDTO;
+import com.devsuperior.dscatalog.dto.UserUpdateDTO;
 import com.devsuperior.dscatalog.services.UserService;
 
 /* Implementação do controlador REST, para a classe User.                                                                                             */
@@ -85,12 +86,12 @@ public class UserResource {
 	// Endpoint para alterar uma categoria e encapsular uma resposta HTTP. 
 	// @Valid -> indica que as anotações de validação (tamanho, requerido, etc), que estão nos atributos do DTO, serão validadas pelo spring.
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
-		dto = service.update(id, dto);
+	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto) {
+		UserDTO newDto = service.update(id, dto);
 		
 		// Retornando a categoria no corpo da resposta HTTP da requisição.
 		// ResponseEntity.ok informa que o código de retorno é 200 - Sucesso.
-		return ResponseEntity.ok().body(dto); 
+		return ResponseEntity.ok().body(newDto); 
 	}
 	
 	// Endpoint para excluir uma categoria. 
