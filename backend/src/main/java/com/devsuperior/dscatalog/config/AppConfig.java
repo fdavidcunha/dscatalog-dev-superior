@@ -3,6 +3,8 @@ package com.devsuperior.dscatalog.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 // Classe de configuração responsável por manter alguma configuração ou criar algum componente.
 
@@ -16,4 +18,18 @@ public class AppConfig {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+	public JwtAccessTokenConverter accessTokenConverter() {
+		// Objeto capaz de acessar/ler/decodificar um token JWT.
+		JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();
+		tokenConverter.setSigningKey("MY-JWT-SECRET");
+		return tokenConverter;
+	}
+
+	@Bean
+	public JwtTokenStore tokenStore() {
+		// Bean para acessar o token.
+		return new JwtTokenStore(accessTokenConverter());
+	}	
 }
