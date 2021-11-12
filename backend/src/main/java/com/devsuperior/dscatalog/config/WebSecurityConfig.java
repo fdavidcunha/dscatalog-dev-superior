@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// web.ignoring().antMatchers("/**")          -> Libera todos os caminhos da aplicação.
 		// web.ignoring().antMatchers("/actuator/**") -> Libera todos os caminhos da aplicação passando pelo "actuator" que é uma biblioteca que o Spring Cloud oauth usa.
 
-		web.ignoring().antMatchers("/**");
+		web.ignoring().antMatchers("/actuator/**");
 	}
 
 	@Override
