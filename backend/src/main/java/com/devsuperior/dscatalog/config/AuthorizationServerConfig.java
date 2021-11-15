@@ -18,7 +18,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import com.devsuperior.dscatalog.components.JWTTokenEnhancer;
 
-// @EnableAuthorizationServer -> Informa que essa é a classe representa o AuthorizationServer do oauth.
+// @EnableAuthorizationServer -> Informa que essa é a classe que representa o AuthorizationServer do oauth.
+// É a classe que recebe as credenciais e devolve um token na resposta.
 
 @Configuration
 @EnableAuthorizationServer
