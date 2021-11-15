@@ -1,7 +1,10 @@
 package com.devsuperior.dscatalog.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -16,10 +19,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+	// Environment -> Objeto especial do ambiente de exceução da aplicação.
+	@Autowired private Environment env;
 	@Autowired private JwtTokenStore tokenStore;
 
 	// Endpoints liberados para acesso geral, sem login.
-	private static final String[] PUBLIC = {"/oauth/token", };
+	private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"};
 	// Endpoints liberados para acesso de operadores.
 	private static final String[] OPERATOR_OR_ADMIN = {"/products/**", "/categories/**"};
 	// Endpoints liberados para acesso de admins.
@@ -34,8 +39,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		
-		/* Definindo quem pode acessar cada endpoints */
+		// env.getActiveProfiles() -> Profiles de execução que estão rodando.
+		// Verificando se nos profiles ativos contém o profile "test".
+		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
+			// Liberando o banco dedados H2.
+			http.headers().frameOptions().disable();
+		}
 		
+		// Definindo quem pode acessar cada endpoints.
 		http.authorizeRequests()
 			.antMatchers(PUBLIC).permitAll()                              // Rotas liberadas pra todos.
 			.antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()   // Liberando apenas os métodos GET para rotas específicas.
