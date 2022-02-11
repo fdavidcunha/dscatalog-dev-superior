@@ -45,7 +45,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		// Define como que vai ser a autenticação e quis serão os dados do cliente.
+		// Define como que vai ser a autenticação e quais serão os dados do cliente.
 
 		clients.inMemory()                                // Define que o processo ocorrerá em memória.
 			.withClient(clientId)                         // ID da aplicação. Serivá para se comunicar com o backend.

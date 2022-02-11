@@ -17,7 +17,7 @@ public class UserDTO implements Serializable{
 	@Email(message = "E-mail inválido")
 	private String email;
 	
-	Set<RoleDTO> roles= new HashSet<>();
+	Set<RoleDTO> roles = new HashSet<>();
 	
 	public UserDTO() {
 		
@@ -38,7 +38,7 @@ public class UserDTO implements Serializable{
 		this.email = entity.getEmail();
 
 		// Função lambda que varre o Set "roles", converte cada elemento para seu DTO e insere na List "roles" desta classe.
-		entity.getRoles().forEach(role  -> this.roles.add(new RoleDTO(role)));
+		entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
 	}
 
 	public Long getId() {

@@ -123,7 +123,8 @@ public class User implements UserDetails, Serializable {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// Para cada elemento role instancia um SimpleGrantedAuthority.
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority()))
+		return roles.stream()
+				.map(role -> new SimpleGrantedAuthority(role.getAuthority()))
 				.collect(Collectors.toList());
 	}
 
