@@ -54,7 +54,7 @@ public class ProductResourceUnitTests {
 		// List.of() -> Permite que seja intanciada uma lista com elementos dentro.
 		page = new PageImpl<>(List.of(productDTO));
 		
-		Mockito.when(service.findAllPaged(ArgumentMatchers.any())).thenReturn(page);
+		//Mockito.when(service.findAllPaged(ArgumentMatchers.any())).thenReturn(page);
 		
 		Mockito.when(service.findById(existingId)).thenReturn(productDTO);
 		Mockito.when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
